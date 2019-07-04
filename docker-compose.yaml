@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  pg:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  bouncer:
+    image: edoburu/pgbouncer
+    environment:
+      DATABASE_URL: postgres://postgres:password@pg
+      POOL_MODE: transaction
+      LISTEN_PORT: 6432
+    ports:
+      - 6432:6432
+
+  mssql:
+    image: microsoft/mssql-server-linux
+    environment:
+      SA_PASSWORD: yourStrong(!)Password
+      ACCEPT_EULA: Y
+    ports:
+      - 1433:1433
+
+  test:
+    build:
+      context: .
